@@ -33,7 +33,13 @@ async function main() {
     services: {
       identify: identify(),
       autoNat: autoNAT(),
-      relay: circuitRelayServer(),
+      relay: circuitRelayServer({
+        reservations: {
+        maxReservations: 10,      // Increase this if needed
+        reservationTtl: 600_000,   // 10 minutes
+        applyLimits: false         // Set to false for testing to rule out rate-limiting
+      }
+  }),
       pubsub: gossipsub(),
     },
   })
