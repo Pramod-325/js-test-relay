@@ -11,21 +11,22 @@ import { webRTC, webRTCDirect } from '@libp2p/webrtc'
 import { circuitRelayServer, circuitRelayTransport } from '@libp2p/circuit-relay-v2'
 import { PUBSUB_PEER_DISCOVERY } from './constants.js'
 
+const port = parseInt(process.env.PORT || '9001')
+
 async function main() {
   // enable('*')
   const libp2p = await createLibp2p({
     addresses: {
-      listen: [
-        '/ip4/0.0.0.0/tcp/9001/ws',
-        '/ip4/0.0.0.0/tcp/9002',
-        '/ip4/0.0.0.0/udp/9090/webrtc-direct',
-      ],
-    },
+    listen: [
+      `/ip4/0.0.0.0/tcp/${port}/ws` // Listen on Render's assigned port
+    ],
+    // 💡 IMPORTANT: You must announce the public WSS address
+    announce: [
+      `/dns4/js-test-relay.onrender.com/tcp/443/wss`
+    ]
+  },
     transports: [
-      tcp(),
       webSockets(),
-      webRTC(),
-      webRTCDirect(),
       circuitRelayTransport()
     ],
     connectionEncrypters: [noise()],
