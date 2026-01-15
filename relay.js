@@ -1,5 +1,6 @@
 // @ts-check
 import { createLibp2p } from 'libp2p'
+import { ping } from '@libp2p/ping'
 import { autoNAT } from '@libp2p/autonat'
 import { identify } from '@libp2p/identify'
 import { noise } from '@chainsafe/libp2p-noise'
@@ -50,6 +51,7 @@ async function main() {
     connectionEncrypters: [noise()],
     streamMuxers: [yamux()],
     services: {
+      ping: ping(),
       identify: identify(),
       autoNat: autoNAT(),
       relay: circuitRelayServer({
