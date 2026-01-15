@@ -56,7 +56,7 @@ async function main() {
       autoNat: autoNAT(),
       relay: circuitRelayServer({
         reservations: {
-          maxReservations: 50,     
+          maxReservations: 1500,     
           reservationTtl: 600_000, // 10 minutes
           applyLimits: false       // Optional: limit data transfer
         }
